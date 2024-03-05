@@ -44,7 +44,8 @@ func New(config ...Config) fiber.Handler {
 		m = minify.New()
 		if cfg.MinifyHTML {
 			m.Add("text/html", &html.Minifier{
-				KeepEndTags: true, // avoid breaking things, e.g. Shoelace.style web components
+				KeepEndTags:      true, // avoid breaking things, e.g. Shoelace.style web components
+				KeepDocumentTags: true,
 			})
 		}
 		if cfg.MinifyCSS {
