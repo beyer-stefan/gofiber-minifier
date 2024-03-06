@@ -44,7 +44,9 @@ func New(config ...Config) fiber.Handler {
 		m = minify.New()
 		if cfg.MinifyHTML {
 			m.Add("text/html", &html.Minifier{
-				KeepEndTags: true, // avoid breaking things, e.g. Shoelace.style web components
+				// avoid breaking things, e.g. Shoelace.style web components or LinkedIn sharing (!)
+				KeepEndTags:      true,
+				KeepDocumentTags: true,
 			})
 		}
 		if cfg.MinifyCSS {
@@ -58,8 +60,8 @@ func New(config ...Config) fiber.Handler {
 		}
 
 		if err = m.Minify(string(c.Response().Header.Peek("Content-Type")[:]), c.Response().BodyWriter(), bytes.NewReader(origBody)); err != nil {
-			// just in case minifying does not work for any reason, we fail in a gentle way
-			// by writing the original (un-minified) body
+			// Minifying does not work (aka: returned an error),
+			// so we fail in a gentle way by writing the original (un-minified) body
 			c.Response().BodyWriter().Write(origBody)
 		}
 
