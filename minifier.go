@@ -7,7 +7,6 @@ import (
 	"github.com/tdewolff/minify/v2/css"
 	"github.com/tdewolff/minify/v2/html"
 	"github.com/tdewolff/minify/v2/js"
-	"github.com/tdewolff/minify/v2/xml"
 	"regexp"
 )
 
@@ -44,7 +43,7 @@ func New(config ...Config) fiber.Handler {
 		m = minify.New()
 		if cfg.MinifyHTML {
 			m.Add("text/html", &html.Minifier{
-				// avoid breaking things, e.g. Shoelace.style web components or LinkedIn sharing (!)
+				// avoid breaking things, e.g. Shoelace.style web components or LinkedIn sharing
 				KeepEndTags:      true,
 				KeepDocumentTags: true,
 			})
@@ -54,9 +53,6 @@ func New(config ...Config) fiber.Handler {
 		}
 		if cfg.MinifyJS {
 			m.AddRegexp(regexp.MustCompile("^(application|text)/(x-)?(java|ecma)script$"), &js.Minifier{})
-		}
-		if cfg.MinifyXML {
-			m.AddRegexp(regexp.MustCompile("[/+]xml$"), &xml.Minifier{})
 		}
 
 		if err = m.Minify(string(c.Response().Header.Peek("Content-Type")[:]), c.Response().BodyWriter(), bytes.NewReader(origBody)); err != nil {
