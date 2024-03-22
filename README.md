@@ -35,7 +35,7 @@ func main() {
 ```
 
 ## Credits 
-This project is based on [minify](https://github.com/tdewolff/minify>) by [Taco de Wolff](https://github.com/tdewolff). 
+This project is based on [minify](https://github.com/tdewolff/minify) by [Taco de Wolff](https://github.com/tdewolff). 
 
 ## License
 Released under the [MIT license](LICENSE.md).
