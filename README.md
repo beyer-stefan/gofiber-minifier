@@ -12,8 +12,7 @@ Minifier for [Fiber ("gofiber")](https://github.com/gofiber) supporting HTML5, C
 
 > **Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** built on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
 
-> Minification is the process of removing characters like whitespaces, tab stops, or CR/LR from files
-without changing their meaning, ultimately shrinking file size and speeding up transmission over the internet.
+> Minification is the process of removing characters like whitespaces, tab stops, or CR/LR from files without changing their meaning, ultimately shrinking file size and speeding up transmission over the internet.
 
 ## Install
 ```Shell
