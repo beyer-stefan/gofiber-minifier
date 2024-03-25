@@ -47,4 +47,6 @@ This project is based on [minify](https://github.com/tdewolff/minify) by [Taco d
 ## License
 Released under the [MIT license](LICENSE.md).
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9810b5e4516d4df8b670da108cd01bf3)](https://app.codacy.com/gh/beyer-stefan/gofiber-minifier/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![Mentioned in Awesome Fiber](https://awesome.re/mentioned-badge.svg)](https://github.com/gofiber/awesome-fiber)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9810b5e4516d4df8b670da108cd01bf3)](https://app.codacy.com/gh/beyer-stefan/gofiber-minifier/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/beyer-stefan/gofiber-minifier)](https://goreportcard.com/badge/github.com/beyer-stefan/gofiber-minifier) 
+[![Mentioned in Awesome Fiber](https://awesome.re/mentioned-badge.svg)](https://github.com/gofiber/awesome-fiber)
