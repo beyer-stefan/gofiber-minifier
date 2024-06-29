@@ -3,6 +3,7 @@ package minifier
 import (
 	"bytes"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/css"
 	"github.com/tdewolff/minify/v2/html"
@@ -56,6 +57,7 @@ func New(config ...Config) fiber.Handler {
 		}
 
 		if err = m.Minify(string(c.Response().Header.Peek("Content-Type")[:]), c.Response().BodyWriter(), bytes.NewReader(origBody)); err != nil {
+			log.Error(err)
 			// Minifying does not work (aka: returned an error),
 			// so we fail in a gentle way by writing the original (un-minified) body
 			c.Response().BodyWriter().Write(origBody)
