@@ -55,6 +55,9 @@ func New(config ...Config) fiber.Handler {
 		if cfg.MinifyJS {
 			m.AddRegexp(regexp.MustCompile("^(application|text)/(x-)?(java|ecma)script$"), &js.Minifier{})
 		}
+		if cfg.MinifyXML {
+			m.AddRegexp(regexp.MustCompile("xml$"), &js.Minifier{})
+		}
 
 		if err = m.Minify(string(c.Response().Header.Peek("Content-Type")[:]), c.Response().BodyWriter(), bytes.NewReader(origBody)); err != nil {
 			log.Error(err)
