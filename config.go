@@ -7,7 +7,7 @@ import (
 type Config struct {
 	Next func(c *fiber.Ctx) bool
 
-	MinifyHTML, MinifyCSS, MinifyJS, MinifyXML bool
+	MinifyHTML, MinifyCSS, MinifyJS, MinifyXML, MinifyJSON bool
 }
 
 var ConfigDefault = Config{Next: nil, MinifyHTML: true}

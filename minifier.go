@@ -8,6 +8,7 @@ import (
 	"github.com/tdewolff/minify/v2/css"
 	"github.com/tdewolff/minify/v2/html"
 	"github.com/tdewolff/minify/v2/js"
+	"github.com/tdewolff/minify/v2/json"
 	"github.com/tdewolff/minify/v2/xml"
 	"regexp"
 )
@@ -22,6 +23,7 @@ func New(config ...Config) fiber.Handler {
 			err      error
 			origBody []byte
 			m        *minify.M
+			mimetype string
 		)
 
 		if cfg.Next != nil && cfg.Next(c) {
@@ -43,6 +45,7 @@ func New(config ...Config) fiber.Handler {
 		c.Response().ResetBody()
 
 		m = minify.New()
+
 		if cfg.MinifyHTML {
 			m.Add("text/html", &html.Minifier{
 				// avoid breaking things, e.g. Shoelace.style web components or LinkedIn sharing
@@ -50,18 +53,26 @@ func New(config ...Config) fiber.Handler {
 				KeepDocumentTags: true,
 			})
 		}
+
 		if cfg.MinifyCSS {
 			m.Add("text/css", &css.Minifier{})
 		}
+
 		if cfg.MinifyJS {
 			m.AddRegexp(regexp.MustCompile("^(application|text)/(x-)?(java|ecma)script$"), &js.Minifier{})
 		}
+
 		if cfg.MinifyXML {
 			m.AddRegexp(regexp.MustCompile("xml$"), &xml.Minifier{})
 		}
 
-		if err = m.Minify(string(c.Response().Header.Peek("Content-Type")[:]), c.Response().BodyWriter(), bytes.NewReader(origBody)); err != nil {
-			log.Error(err)
+		if cfg.MinifyJSON {
+			m.AddRegexp(regexp.MustCompile("json$"), &json.Minifier{})
+		}
+
+		mimetype = string(c.Response().Header.Peek("Content-Type")[:])
+		if err = m.Minify(mimetype, c.Response().BodyWriter(), bytes.NewReader(origBody)); err != nil {
+			log.Errorf("%s %s", err.Error(), mimetype)
 			// Minifying does not work (aka: returned an error),
 			// so we fail in a gentle way by writing the original (un-minified) body
 			c.Response().BodyWriter().Write(origBody)
