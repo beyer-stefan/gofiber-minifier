@@ -8,6 +8,7 @@ import (
 	"github.com/tdewolff/minify/v2/css"
 	"github.com/tdewolff/minify/v2/html"
 	"github.com/tdewolff/minify/v2/js"
+	"github.com/tdewolff/minify/v2/xml"
 	"regexp"
 )
 
@@ -56,7 +57,7 @@ func New(config ...Config) fiber.Handler {
 			m.AddRegexp(regexp.MustCompile("^(application|text)/(x-)?(java|ecma)script$"), &js.Minifier{})
 		}
 		if cfg.MinifyXML {
-			m.AddRegexp(regexp.MustCompile("xml$"), &js.Minifier{})
+			m.AddRegexp(regexp.MustCompile("xml$"), &xml.Minifier{})
 		}
 
 		if err = m.Minify(string(c.Response().Header.Peek("Content-Type")[:]), c.Response().BodyWriter(), bytes.NewReader(origBody)); err != nil {
