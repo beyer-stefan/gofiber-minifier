@@ -23,6 +23,7 @@ func New(config ...Config) fiber.Handler {
 			err      error
 			origBody []byte
 			m        *minify.M
+			mimetype string
 		)
 
 		if cfg.Next != nil && cfg.Next(c) {
@@ -69,8 +70,9 @@ func New(config ...Config) fiber.Handler {
 			m.AddRegexp(regexp.MustCompile("json$"), &json.Minifier{})
 		}
 
-		if err = m.Minify(string(c.Response().Header.Peek("Content-Type")[:]), c.Response().BodyWriter(), bytes.NewReader(origBody)); err != nil {
-			log.Errorf("%s %s", err.Error())
+		mimetype = string(c.Response().Header.Peek("Content-Type")[:])
+		if err = m.Minify(mimetype, c.Response().BodyWriter(), bytes.NewReader(origBody)); err != nil {
+			log.Errorf("%s %s", err.Error(), mimetype)
 			// Minifying does not work (aka: returned an error),
 			// so we fail in a gentle way by writing the original (un-minified) body
 			c.Response().BodyWriter().Write(origBody)
