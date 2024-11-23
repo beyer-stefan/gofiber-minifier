@@ -72,7 +72,7 @@ func New(config ...Config) fiber.Handler {
 
 		mimetype = string(c.Response().Header.Peek("Content-Type")[:])
 		if err = m.Minify(mimetype, c.Response().BodyWriter(), bytes.NewReader(origBody)); err != nil {
-			log.Errorf("%s %s", err.Error(), mimetype)
+			log.Warnf("%s '%s'", err.Error(), mimetype)
 			// Minifying does not work (aka: returned an error),
 			// so we fail in a gentle way by writing the original (un-minified) body
 			c.Response().BodyWriter().Write(origBody)
