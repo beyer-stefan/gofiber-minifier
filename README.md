@@ -34,6 +34,8 @@ func main() {
 	app.Use(minifier.New(minifier.Config{
 		MinifyHTML: true,
 	}))
+	// static files ...
+	// application routes ...
 	(...)
 }
 ```
