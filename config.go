@@ -7,10 +7,10 @@ import (
 type Config struct {
 	Next func(c *fiber.Ctx) bool
 
-	MinifyHTML, MinifyCSS, MinifyJS, MinifyXML, MinifyJSON bool
+	SuppressWarnings, MinifyHTML, MinifyCSS, MinifyJS, MinifyXML, MinifyJSON bool
 }
 
-var ConfigDefault = Config{Next: nil, MinifyHTML: true}
+var ConfigDefault = Config{Next: nil}
 
 func configDefault(config ...Config) Config {
 	if len(config) < 1 {
