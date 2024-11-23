@@ -4,9 +4,9 @@
 Minifier for [Fiber ("gofiber")](https://github.com/gofiber) supporting HTML5, CSS3, and JavaScript. 
 
 <a href="https://gofiber.io">
-  <picture alt="Fiber Logo" align="right" style="margin-right: 25px">
+  <picture style="float:right; margin-right: 25px">
     <source height="75" media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/gofiber/docs/master/static/img/logo-dark.svg">
-    <img height="75" alt="Fiber Logo" align="right" style="margin-right: 25px" src="https://raw.githubusercontent.com/gofiber/docs/master/static/img/logo.svg">
+    <img height="75" alt="Fiber Logo" style="float: right; margin-right: 25px" src="https://raw.githubusercontent.com/gofiber/docs/master/static/img/logo.svg">
   </picture>
 </a>
 
@@ -30,19 +30,36 @@ import (
 
 func main() {
 	app := fiber.New()
-
 	(...)
-	
 	app.Use(minifier.New(minifier.Config{
 		MinifyHTML: true,
 	}))
-
 	(...)
 }
 ```
 
+### Handling Warn messages
+If you put the minifier before your static content and your application routes
+you will most likely see warning messages similar to this one:
+```
+(...) minifier.go:77: [Warn] minifier does not exist for mimetype 'image/jpeg'
+```
+This is because not all mimetypes can be minified. If e.g. your static files 
+consist of JPG-images and CSS, you will get a warning message similar to one shown above
+for all JPG-images. This can be handled in two ways:
+1. Find the right position in your code so you only minify supported mimetyes
+2. Use `SuppressWarnings` to get rid of the Warn messages
+```
+    app.Use(minifier.New(minifier.Config{
+        SuppressWarnings: true,
+        MinifyHTML: true,
+        MinifyCSS: true,
+    }))
+```
+
 ## Credits 
-This project is based on [minify](https://github.com/tdewolff/minify) by [Taco de Wolff](https://github.com/tdewolff). 
+This project is a thin wrapper on top of [minify](https://github.com/tdewolff/minify) by [Taco de Wolff](https://github.com/tdewolff). 
+He deserves all the credit.
 
 ## License
 Released under the [MIT license](LICENSE.md).
